@@ -1,0 +1,19 @@
+pos = textArea.getCaretPosition();
+
+atStart = pos == 0;
+atEnd = textArea.getBufferLength() == pos;
+
+if (!atStart && !atEnd) {
+	curChar = textArea.getText(pos - 1, 1);
+	nextChar = textArea.getText(pos, 1);
+	
+	paren = curChar.equals("(") && nextChar.equals(")");
+	brace = curChar.equals("{") && nextChar.equals("}");
+	bracket = curChar.equals("[") && nextChar.equals("]");
+	
+	if (paren || brace || bracket) {
+		textArea.goToNextCharacter(false);
+		textArea.backspace();
+	}
+}
+textArea.backspace();

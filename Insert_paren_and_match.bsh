@@ -1,0 +1,2 @@
+textArea.setSelectedText("()");
+textArea.goToPrevCharacter(false);

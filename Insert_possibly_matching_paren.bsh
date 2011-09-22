@@ -1,0 +1,7 @@
+pos = textArea.getCaretPosition();
+atEnd = textArea.getBufferLength() == pos;
+if (!atEnd && textArea.getText(pos, 1).equals(")")) {
+	textArea.goToNextCharacter(false);
+} else {
+	textArea.setSelectedText(")");
+}

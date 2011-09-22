@@ -1,0 +1,22 @@
+// This is a recorded macro. First, check over the
+// commands to make sure this is what you intended. Then,
+// save this buffer, and the macro should appear in the
+// Macros menu.
+import java.util.regex.Pattern;
+
+String txt = textArea.getSelectedText();
+if (txt == null) {
+	textArea.selectLine();
+	txt = textArea.getSelectedText();
+}
+if (txt.startsWith("//")) {
+	System.out.println("uncomments");
+	txt = Pattern.compile("^(\\s*)//(.*)$", Pattern.MULTILINE).matcher(txt).replaceAll("$1$2");
+} else {
+	System.out.println("comments");
+	txt = Pattern.compile("^(.*)$", Pattern.MULTILINE).matcher(txt).replaceAll("//$1");
+	//txt = txt.replaceAll("^(.*)$", "//$1");	
+}
+
+textArea.replaceSelection(txt);
+
