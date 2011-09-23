@@ -1,0 +1,10 @@
+pos = textArea.getCaretPosition();
+atStart = 0 == pos;
+atEnd = textArea.getBufferLength() == pos;
+if (!atStart && !atEnd && textArea.getText(pos - 1, 1).equals("{") && textArea.getText(pos, 1).equals("}")) {
+	textArea.insertEnterAndIndent();
+	textArea.setCaretPosition(pos);
+	textArea.insertEnterAndIndent();
+} else {
+	textArea.insertEnterAndIndent();
+}
