@@ -1,2 +1,20 @@
-textArea.setSelectedText("()");
-textArea.goToPrevCharacter(false);
+pos = textArea.getCaretPosition();
+
+atEndOfLine = true;
+while (textArea.getBufferLength() != pos && atEndOfLine) {
+	c = textArea.getText(pos, 1);
+	if (c.equals(" ") || c.equals("\t")) {
+		pos++;
+	} else if (c.equals("\n") || c.equals("\r")) {
+		break;
+	} else {
+		atEndOfLine = false;
+	}
+} 
+
+if (!atEndOfLine) {
+	textArea.setSelectedText("(");
+} else {
+	textArea.setSelectedText("()");
+	textArea.goToPrevCharacter(false);
+}
