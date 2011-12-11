@@ -41,4 +41,5 @@ insert(textArea, sc, ec, init) {
 	}
 }
 
-insert(textArea, "{", "}", true);
+// TODO never moves right over closing match
+insert(textArea, "'", "'", true);

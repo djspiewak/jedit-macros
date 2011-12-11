@@ -1,3 +1,4 @@
+// TODO multiple selection
 pos = textArea.getCaretPosition();
 
 atStart = pos == 0;
@@ -10,8 +11,10 @@ if (!atStart && !atEnd) {
 	paren = curChar.equals("(") && nextChar.equals(")");
 	brace = curChar.equals("{") && nextChar.equals("}");
 	bracket = curChar.equals("[") && nextChar.equals("]");
+	quote = curChar.equals("\"") && nextChar.equals("\"");
+	tic = curChar.equals("'") && nextChar.equals("'");
 	
-	if (paren || brace || bracket) {
+	if (paren || brace || bracket || quote/* || tic */) {
 		textArea.goToNextCharacter(false);
 		textArea.backspace();
 	}

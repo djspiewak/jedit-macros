@@ -1,8 +1,44 @@
-pos = textArea.getCaretPosition();
-atEnd = textArea.getBufferLength() == pos;
-if (!atEnd && textArea.getText(pos, 1).equals("]")) {
-	textArea.goToNextCharacter(false);
-} else {
-	textArea.setSelectedText("]");
+insert(textArea, sc, ec, init) {
+	if (textArea.getSelectionCount() == 0) {
+		sel = new Selection.Range(textArea.getCaretPosition(), textArea.getCaretPosition());
+	} else if (init && textArea.getSelectionCount() == 1 && textArea.getSelection()[0] instanceof Selection.Range) {
+		sel = textArea.getSelection()[0];
+	} else {
+		// TODO?
+		selections = textArea.getSelection();
+		for (int i = 0; i < selections.length; i++) {
+			textArea.setSelectedText(selections[i], init ? sc : ec);
+		}
+		return;
+	}
+	
+	if (init) {
+		position = textArea.getCaretPosition();
+		prior = new Selection.Range(sel.getStart(), sel.getStart());
+		post = new Selection.Range(sel.getEnd() + 1, sel.getEnd() + 1);
+		textArea.setSelectedText(prior, sc);
+		textArea.setSelectedText(post, ec);
+		
+		if (position >= prior.getStart()) {
+			position++;
+		}
+		if (position > post.getEnd()) {
+			position++;
+		}
+		
+		textArea.moveCaretPosition(position);
+		textArea.setSelection(new Selection.Range(sel.getStart(), Math.max(sel.getStart(), sel.getEnd() - 1)));
+	} else {
+		target = new Selection.Range(sel.getEnd(), sel.getEnd() + 1);
+		if (target.getEnd() <= textArea.getBufferLength()) {
+			if (!textArea.getSelectedText(target).equals(ec)) {
+				textArea.setSelectedText(new Selection.Range(sel.getEnd(), sel.getEnd()), ec);
+			}
+			textArea.setCaretPosition(sel.getEnd() + 1);
+		} else {
+			textArea.setSelectedText(ec, true);
+		}
+	}
 }
 
+insert(textArea, "[", "]", false);
